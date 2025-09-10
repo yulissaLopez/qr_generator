@@ -8,10 +8,10 @@ app = FastAPI()
 
 @app.get("/generate")
 async def generate_qr_pdf(
-    nombre: str = Form(...),
-    telefono: str = Form(...),
-    correo: str = Form(...),
-    empresa: str = Form(...)
+    nombre: str ,
+    telefono: str,
+    correo: str,
+    empresa: str
 ):
     imagenes = []
 
