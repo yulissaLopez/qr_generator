@@ -1,5 +1,5 @@
 from fastapi import FastAPI, Form
-from fastapi.responses import FileResponse
+from fastapi.responses import StreamingResponse
 from main import crear_vcard, generar_qr, crear_etiqueta
 from io import BytesIO
 from PIL import Image
@@ -19,7 +19,7 @@ async def generate_qr_endpoint(
     # 2. Generar QR
     qr_img = generar_qr(vcard, size_px=600)
 
-    # 3. Crear etiqueta (usa tu fuente incluida en el repo)
+    # 3. Crear etiqueta (usa tu fuente incluida en fonts/)
     etiqueta = crear_etiqueta(qr_img, nombre, empresa)
 
     # 4. Guardar en buffer
@@ -27,4 +27,7 @@ async def generate_qr_endpoint(
     etiqueta.save(buf, format="PNG")
     buf.seek(0)
 
-    return FileResponse(buf, media_type="image/png", filename="etiqueta.png")
+    # 5. Retornar imagen como respuesta
+    return StreamingResponse(buf, media_type="image/png", headers={
+        "Content-Disposition": "attachment; filename=etiqueta.png"
+    })
