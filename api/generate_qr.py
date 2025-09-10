@@ -2,7 +2,6 @@ from fastapi import FastAPI, Form
 from fastapi.responses import FileResponse
 from main import crear_vcard, generar_qr, crear_etiqueta
 from io import BytesIO
-from fpdf import FPDF
 
 app = FastAPI()
 
