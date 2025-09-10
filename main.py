@@ -1,7 +1,6 @@
 # main.py
 import json
 import io
-from flask import Flask, request, send_file
 from PIL import Image, ImageDraw, ImageFont
 import qrcode
 import textwrap
@@ -100,27 +99,3 @@ def crear_etiqueta(qr_img, nombre, empresa, ancho_cm=9.0, alto_cm=5.0, dpi=300,
         y += font_empresa.size + 5
 
     return etiqueta
-
-# --- Función de Cloud Function ---
-def generar_etiqueta(request):
-    """
-    Cloud Function HTTP que recibe JSON con campos:
-    { "nombre": "...", "telefono": "...", "correo": "...", "empresa": "..." }
-    Devuelve la etiqueta como imagen PNG.
-    """
-    request_json = request.get_json()
-    nombre = request_json.get("nombre")
-    telefono = request_json.get("telefono")
-    correo = request_json.get("correo")
-    empresa = request_json.get("empresa")
-
-    vcard = crear_vcard(nombre, telefono, correo, empresa)
-    qr_img = generar_qr(vcard)
-    etiqueta = crear_etiqueta(qr_img, nombre, empresa)
-
-    # Guardar en buffer para enviar por HTTP
-    buf = io.BytesIO()
-    etiqueta.save(buf, format="PNG")
-    buf.seek(0)
-
-    return send_file(buf, mimetype="image/png", as_attachment=True, download_name=f"{nombre}_etiqueta.png")
