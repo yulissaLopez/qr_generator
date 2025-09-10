@@ -6,7 +6,7 @@ from PIL import Image
 
 app = FastAPI()
 
-@app.post("/generate")
+@app.get("/generate")
 async def generate_qr_pdf(
     nombre: str = Form(...),
     telefono: str = Form(...),
