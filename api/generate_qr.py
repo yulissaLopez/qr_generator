@@ -22,7 +22,7 @@ async def generate_qr_pdf(
     qr_img = generar_qr(vcard, size_px=600)
 
     # 3. Crear etiqueta
-    etiqueta = crear_etiqueta(qr_img, nombre, empresa)
+    etiqueta = crear_etiqueta(qr_img, nombre, empresa, ancho_cm=6, alto_cm=5)
     imagenes.append(etiqueta)
 
     # 4. Guardar PDF temporal en disco
