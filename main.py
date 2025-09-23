@@ -6,7 +6,7 @@ import qrcode
 import textwrap
 
 # Fuente incluida en la carpeta del proyecto
-FUENTE_PATH = "fonts/ARIAL.ttf"  # Coloca el .ttf aquí
+FUENTE_PATH = "fonts\ARIAL.TTF"  # Coloca el .ttf aquí
 
 # --- Funciones auxiliares ---
 def cm_a_px(cm: float, dpi: int = 300) -> int:
@@ -120,3 +120,7 @@ etiqueta = crear_etiqueta(qr, nombre, empresa, ancho_cm=6, alto_cm=5, fuente_nom
 
 etiqueta.show()
 etiqueta.save("etiqueta_prueba.png")
+
+import os
+print(os.getcwd())  # te dice la carpeta donde está corriendo Render
+print(os.path.exists(FUENTE_PATH))  # True si encuentra la fuente
