@@ -107,19 +107,19 @@ def crear_etiqueta(qr_img: Image.Image, nombre: str, empresa: str, ancho_cm: flo
 
     return etiqueta
 
-nombre = "Yulissa Lopez"
-empresa = "Empresa de Ejemplo"
-correo = "juan.perez@ejemplo.com"
-telefono = "+57 300 123 4567"
+# nombre = "Yulissa Lopez"
+# empresa = "Empresa de Ejemplo"
+# correo = "juan.perez@ejemplo.com"
+# telefono = "+57 300 123 4567"
 
-data_qr = f"Nombre: {nombre}\nEmpresa: {empresa}\nCorreo: {correo}\nTeléfono: {telefono}"
-v = crear_vcard(nombre, empresa, correo, telefono)
-qr = generar_qr(v)
-etiqueta = crear_etiqueta(qr, nombre, empresa, ancho_cm=6, alto_cm=5, fuente_nombre_px= 50,
-        fuente_empresa_px= 33)
+# data_qr = f"Nombre: {nombre}\nEmpresa: {empresa}\nCorreo: {correo}\nTeléfono: {telefono}"
+# v = crear_vcard(nombre, empresa, correo, telefono)
+# qr = generar_qr(v)
+# etiqueta = crear_etiqueta(qr, nombre, empresa, ancho_cm=6, alto_cm=5, fuente_nombre_px= 50,
+#         fuente_empresa_px= 33)
 
-etiqueta.show()
-etiqueta.save("etiqueta_prueba.png")
+# etiqueta.show()
+# etiqueta.save("etiqueta_prueba.png")
 
 import os
 print(os.getcwd())  # te dice la carpeta donde está corriendo Render
