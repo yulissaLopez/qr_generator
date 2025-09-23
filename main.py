@@ -60,8 +60,8 @@ def crear_etiqueta(qr_img, nombre, empresa, ancho_cm=9.0, alto_cm=5.0, dpi=300,
 
      # --- Preparar texto ---
     draw = ImageDraw.Draw(etiqueta)
-    font_nombre = ImageFont.truetype(fuente_path, fuente_nombre_px)
-    font_empresa = ImageFont.truetype(fuente_path, fuente_empresa_px)
+    font_nombre = ImageFont.truetype(FUENTE_PATH, fuente_nombre_px)
+    font_empresa = ImageFont.truetype(FUENTE_PATH, fuente_empresa_px)
     max_text_width = ancho_px - 2 * margen_px
 
     texto_x = qr_x + qr_redimensionado.width + margen_px
