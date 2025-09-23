@@ -6,7 +6,7 @@ import qrcode
 import textwrap
 
 # Fuente incluida en la carpeta del proyecto
-FUENTE_PATH = "fonts/OpenSansHebrew-Bold.ttf"  # Coloca el .ttf aquí
+FUENTE_PATH = "fonts/ARIAL.ttf"  # Coloca el .ttf aquí
 
 # --- Funciones auxiliares ---
 def cm_a_px(cm: float, dpi: int = 300) -> int:
@@ -51,51 +51,53 @@ def crear_etiqueta(qr_img, nombre, empresa, ancho_cm=9.0, alto_cm=5.0, dpi=300,
     ancho_px, alto_px = cm_a_px(ancho_cm, dpi), cm_a_px(alto_cm, dpi)
     etiqueta = Image.new("RGB", (ancho_px, alto_px), "white")
 
-    qr_max_alto = int((alto_px - 2 * margen_px) * qr_escala)
-    qr_redimensionado = qr_img.resize((qr_max_alto, qr_max_alto), Image.NEAREST)
-    qr_x = margen_px
-    qr_y = (alto_px - qr_redimensionado.height) // 2
+     # --- Colocar QR centrado arriba ---
+    qr_max_ancho = int(ancho_px * qr_escala)
+    qr_redimensionado = qr_img.resize((qr_max_ancho, qr_max_ancho), Image.NEAREST)
+    qr_x = (ancho_px - qr_redimensionado.width) // 2
+    qr_y = margen_px
     etiqueta.paste(qr_redimensionado, (qr_x, qr_y))
 
+     # --- Preparar texto ---
     draw = ImageDraw.Draw(etiqueta)
-    font_nombre = ImageFont.truetype(FUENTE_PATH, fuente_nombre_px)
-    font_empresa = ImageFont.truetype(FUENTE_PATH, fuente_empresa_px)
+    font_nombre = ImageFont.truetype(fuente_path, fuente_nombre_px)
+    font_empresa = ImageFont.truetype(fuente_path, fuente_empresa_px)
+    max_text_width = ancho_px - 2 * margen_px
 
     texto_x = qr_x + qr_redimensionado.width + margen_px
     max_text_width = ancho_px - texto_x - margen_px
 
-    def medir_texto(texto, fuente, max_width, spacing=5):
-        lineas_finales = []
-        for linea in textwrap.wrap(texto, width=40):
-            bbox = draw.textbbox((0,0), linea, font=fuente)
-            w = bbox[2]-bbox[0]
+    def wrap_text(texto, fuente, max_width):
+        lineas = []
+        for linea in textwrap.wrap(texto, width=15):
+            w = draw.textbbox((0, 0), linea, font=fuente)[2]
             if w > max_width:
-                sub_lineas = textwrap.wrap(linea, width=max_width//fuente.size)
-                lineas_finales.extend(sub_lineas)
+                sub_lineas = textwrap.wrap(linea, width=max_width // fuente.size)
+                lineas.extend(sub_lineas)
             else:
-                lineas_finales.append(linea)
-        altura = sum(fuente.size + spacing for _ in lineas_finales)
-        return altura, lineas_finales
+                lineas.append(linea)
+        return lineas
+    
+    lineas_nombre = wrap_text(nombre, font_nombre, max_text_width)
+    lineas_empresa = wrap_text(empresa, font_empresa, max_text_width)
 
-    alto_nombre, lineas_nombre = medir_texto(nombre, font_nombre, max_text_width)
-    alto_empresa, lineas_empresa = medir_texto(empresa, font_empresa, max_text_width)
-    alto_total_texto = alto_nombre + 10 + alto_empresa
-    texto_y = (alto_px - alto_total_texto) // 2
+    # --- Calcular posición de texto debajo del QR ---
+    texto_y = qr_y + qr_redimensionado.height + 0 # espacio entre QR y texto
 
+    # Dibujar nombre
     y = texto_y
     for linea in lineas_nombre:
-        bbox = draw.textbbox((0,0), linea, font=font_nombre)
-        w = bbox[2]-bbox[0]
-        x_linea = texto_x + (max_text_width - w)//2
-        draw.text((x_linea, y), linea, font=font_nombre, fill="black")
+        w = draw.textbbox((0,0), linea, font=font_nombre)[2]
+        x = (ancho_px - w) // 2
+        draw.text((x, y), linea, font=font_nombre, fill="black")
         y += font_nombre.size + 5
 
-    y += 10
+    # Espacio entre nombre y empresa
+    y += 5
     for linea in lineas_empresa:
-        bbox = draw.textbbox((0,0), linea, font=font_empresa)
-        w = bbox[2]-bbox[0]
-        x_linea = texto_x + (max_text_width - w)//2
-        draw.text((x_linea, y), linea, font=font_empresa, fill="black")
+        w = draw.textbbox((0,0), linea, font=font_empresa)[2]
+        x = (ancho_px - w) // 2
+        draw.text((x, y), linea, font=font_empresa, fill="black")
         y += font_empresa.size + 5
 
     return etiqueta
