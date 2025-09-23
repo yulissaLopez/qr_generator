@@ -1,6 +1,7 @@
 # main.py
 import json
 import io
+import os
 from PIL import Image, ImageDraw, ImageFont
 import qrcode
 import textwrap
@@ -125,3 +126,7 @@ import os
 print("Ruta actual (cwd):", os.getcwd())
 print("Archivos en la carpeta actual:", os.listdir("."))
 print("Archivos en qrs/fonts:", os.listdir("fonts") if os.path.exists("fonts") else "No existe fonts")
+
+import os
+print("Fuente existe:", os.path.exists("fonts/ARIAL.TTF"))
+print("Permisos:", oct(os.stat("fonts/ARIAL.TTF").st_mode))
