@@ -6,7 +6,7 @@ import qrcode
 import textwrap
 
 # Fuente incluida en la carpeta del proyecto
-FUENTE_PATH = "fonts/OpenSansHebrew-Bold.tff"  # Coloca el .ttf aquí
+FUENTE_PATH = "fonts/ARIAL.TTF"  # Coloca el .ttf aquí
 
 # --- Funciones auxiliares ---
 def cm_a_px(cm: float, dpi: int = 300) -> int:
@@ -122,5 +122,6 @@ def crear_etiqueta(qr_img: Image.Image, nombre: str, empresa: str, ancho_cm: flo
 # etiqueta.save("etiqueta_prueba.png")
 
 import os
-print(os.getcwd())  # te dice la carpeta donde está corriendo Render
-print(os.path.exists(FUENTE_PATH))  # True si encuentra la fuente
+print("Ruta actual (cwd):", os.getcwd())
+print("Archivos en la carpeta actual:", os.listdir("."))
+print("Archivos en qrs/fonts:", os.listdir("fonts") if os.path.exists("fonts") else "No existe fonts")
