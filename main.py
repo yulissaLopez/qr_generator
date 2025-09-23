@@ -5,8 +5,8 @@ from PIL import Image, ImageDraw, ImageFont
 import qrcode
 import textwrap
 
-# Fuente incluida en la carpeta del proyecto
-FUENTE_PATH = "fonts/ARIAL.TTF"  # Coloca el .ttf aquí
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+FUENTE_PATH = os.path.join(BASE_DIR, "fonts", "ARIAL.TTF")
 
 # --- Funciones auxiliares ---
 def cm_a_px(cm: float, dpi: int = 300) -> int:
