@@ -6,7 +6,7 @@ import qrcode
 import textwrap
 
 # Fuente incluida en la carpeta del proyecto
-FUENTE_PATH = "fonts\ARIAL.TTF"  # Coloca el .ttf aquí
+FUENTE_PATH = "fonts/OpenSansHebrew-Bold.tff"  # Coloca el .ttf aquí
 
 # --- Funciones auxiliares ---
 def cm_a_px(cm: float, dpi: int = 300) -> int:
